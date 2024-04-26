@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environments';
-import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { AuthStatus, CheckTokenResponse, LoginResponse, User } from '../interfaces';
 
 @Injectable({
@@ -16,7 +16,9 @@ export class AuthService {
 	public currentUser = computed(() => this._currentUser());
 	public authStatus = computed(() => this._authStatus());
 
-	constructor() {}
+	constructor() {
+		this.checkAuthStatus().subscribe();
+	}
 
 	private setAuthentication(user: User, token: string): boolean {
 		this._currentUser.set(user);
